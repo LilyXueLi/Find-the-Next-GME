@@ -36,7 +36,7 @@ section {
 }
 
 .container {
-    background-color: none;
+    background-color: black;
     color: #ffa260;
     padding: 1em 2em;
     width: 20rem;
@@ -51,13 +51,12 @@ section {
 }
 
 .container:hover {
-    background-color: white;
+    background-color: black;
     border-color: #f1ff5c;
-    color:#ffa260;
+    color:white;
     box-shadow: 0 0.5em 0.5em -0.1em #f1ff5c;
     transform: translateY(-2.5em);
 }
-
 
 #No8 {
     /* background-color: #ec8385; */
@@ -152,7 +151,7 @@ section {
 
 #No10 {
     /* background-color: #f6cacc; */
-    text-align: end;
+    /* text-align: end; */
     position: relative;
     bottom: 950px;
     z-index: 1;

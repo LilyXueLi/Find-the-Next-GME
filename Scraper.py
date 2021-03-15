@@ -3,8 +3,14 @@ from datetime import datetime
 
 import praw
 import pymongo
+from pymongo import MongoClient
+
+import yfinance as yf
 
 def main():
+    client = MongoClient('localhost', 27017)
+    collection = client["fnGME"]["top_10"]
+
     nasdaq_dict = {}
     nyse_dict = {}
     ticker_dict = {}
@@ -72,7 +78,7 @@ def main():
     # print(f"Before clean {len(ticker_count)}")
 
     # A list of abbreviations generally do not represent tickers.
-    black_list = ["A", "DD", "FOR", "CEO", "ALL", "EV", "OR", "AT", "RH", "ONE"]
+    black_list = ["A", "DD", "FOR", "CEO", "ALL", "EV", "OR", "AT", "RH", "ONE", "ARE", "VERY", "ON"]
 
     clean_sorted_ticker_dict = {}
 
@@ -85,15 +91,33 @@ def main():
 
     sorted_ticker_list = list(clean_sorted_ticker_dict.keys())
 
+    # top10_toDB = {}
+    now = datetime.now()
     for i in range(10):
         output_ticker = sorted_ticker_list[i]
         output_count = clean_sorted_ticker_dict[output_ticker]
-        print(f"{output_ticker}: {output_count}")
+        toDB = {
+            "rank": i+1,
+            "ticker": output_ticker,
+            "name": ticker_dict[output_ticker],
+            "count": output_count,
+            "timeStamp": now
+        }
+        print(toDB)
+        collection.insert_one(toDB)
+        # top10_toDB[str(i)] = (output_ticker, output_count)
+        # print(f"{output_ticker}: {output_count}")
+
+    # collection.insert_one(top10_toDB)
+
+    # print(top10_toDB)
+
+
 
 
 if __name__ == "__main__":
-    while True:
-        main()
-        time_wait = 10
-        time.sleep(time_wait * 60)
-        print(f"Waiting {time_wait} minutes, now is {datetime.now()}")
+    # while True:
+    main()
+    # time_wait = 10
+    # time.sleep(time_wait * 60)
+    # print(f"Waiting {time_wait} minutes, now is {datetime.now()}")
