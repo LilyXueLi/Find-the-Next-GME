@@ -33,12 +33,12 @@ app.use(express.static(__dirname));
 
 
 app.get("/", async (req, res) => {
-  // const latest = await Stock.find().sort({timeStamp:-1}).limit(1);
-  // // console.log("starts");
-  // // console.log(typeof(latest));
-  // // console.log(latest[0].timeStamp);
-  // const latestTimeStamp = latest[0].timeStamp;
-  // const stockList  = await Stock.find({timeStamp: latestTimeStamp}).exec();
+  const latest = await Stock.find().sort({timeStamp:-1}).limit(1);
+  // console.log("starts");
+  // console.log(typeof(latest));
+  // console.log(latest[0].timeStamp);
+  const latestTimeStamp = latest[0].timeStamp;
+  const stockList  = await Stock.find({timeStamp: latestTimeStamp}).exec();
   const stockList = await Stock.find({});
   console.log(stockList);
 
@@ -46,6 +46,11 @@ app.get("/", async (req, res) => {
   for (let i=0; i<stockList.length; i++) {
     obj["stock"+i] = stockList[i].ticker;
     obj["name"+i] = stockList[i].name;
+    obj["industry"+i] = stockList[i].industry;
+    obj["count"+i] = stockList[i].count;
+    obj["previousClose"+i] = stockList[i].previousClose;
+    obj["fiftyDayAverage"+i] = stockList[i].fiftyDayAverage;
+    obj["averageDailyVolume10Day"+i] = stockList[i].averageDailyVolume10Day;
   }
   console.log(obj);
   res.render("index", obj);

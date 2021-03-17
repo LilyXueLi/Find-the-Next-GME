@@ -96,11 +96,16 @@ def main():
     for i in range(10):
         output_ticker = sorted_ticker_list[i]
         output_count = clean_sorted_ticker_dict[output_ticker]
+        stock_info = yf.Ticker(output_ticker).info
         toDB = {
             "rank": i+1,
             "ticker": output_ticker,
             "name": ticker_dict[output_ticker],
+            "industry": stock_info["industry"],
             "count": output_count,
+            "previousClose": stock_info["previousClose"],
+            "fiftyDayAverage": stock_info["fiftyDayAverage"],
+            "averageDailyVolume10Day": stock_info["averageDailyVolume10Day"],
             "timeStamp": now
         }
         print(toDB)
