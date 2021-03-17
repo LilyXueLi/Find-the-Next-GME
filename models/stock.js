@@ -13,7 +13,23 @@ const stockSchema = new mongoose.Schema ({
         type: String,
         required: true
     },
+    industry: {
+        type: String,
+        required: true
+    },
     count: {
+        type: Number,
+        required: true
+    },
+    previousClose: {
+        type: Number,
+        required: true
+    },
+    fiftyDayAverage: {
+        type: Number,
+        required: true
+    },
+    averageDailyVolume10Day: {
         type: Number,
         required: true
     },
