@@ -39,7 +39,7 @@ app.get("/", async (req, res) => {
   // console.log(latest[0].timeStamp);
   const latestTimeStamp = latest[0].timeStamp;
   const stockList  = await Stock.find({timeStamp: latestTimeStamp}).exec();
-  const stockList = await Stock.find({});
+  // const stockList = await Stock.find({});
   console.log(stockList);
 
   let obj = {};
