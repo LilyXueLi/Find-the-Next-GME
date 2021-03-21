@@ -7,8 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;900&family=RocknRoll+One&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Handlee&display=swap" rel="stylesheet">
+
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
@@ -19,30 +21,43 @@
 </head>
 
 <body>
-    <!-- <h1> FIND THE NEXT GME</h1> -->
 
     <nav class="navbar navbar-dark bg-dark">
         <a href="#" class="navbar-brand">FIND THE NEXT GME</a>
         <button class="btn btn-outline-warning" type="button" data-bs-toggle="collapse" data-bs-target="#ranking"
-            aria-expanded="false" aria-controls="ranking">See Weekly Ranking</button>
+            aria-expanded="false" aria-controls="ranking">See Daily Ranking Change</button>
     </nav>
 
     <div class="collapse" id="ranking">
-        <div class="item">Stock1</div>
+        <div class="item">
+            <span>GME</span>
+            <% if(rankingChange0> 0) {%>
+                <img src="/Assets/up arrow_copy.png">
+                <span class="up">
+                    <%=Math.abs(rankingChange0)%>
+                </span>
+                <% } else if (rankingChange0 <0) { %>
+                    <img src="/Assets/down arrow 2.png">
+                    <span class="down">
+                        <%=Math.abs(rankingChange0)%>
+                    </span>
+                    <% } else {%>
+                        <span class="nochange"> no change </span>
+                        <% } %>
+
+        </div>
+        <div class="item">
+            <span>AMC</span><img src="/Assets/down arrow 2.png"><span class="position"> 2 </span>
+        </div>
+        <div class="item">
+            <span>AMC</span><img src="/Assets/down arrow 2.png"><span class="position"> 2 </span>
+        </div>
+        <div class="item">Stock2</div>
+        <div class="item">Stock2</div>
+        <div class="item">Stock2</div>
+        <div class="item">Stock2</div>
         <div class="item">Stock2</div>
     </div>
-    <!-- <div id="sidebar">
-        <div class="toggle-btn" onclick="toggleSidebar(this)">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>  
-        <div class="list">
-          <div class="item">Home</div>
-          <div class="item">About us</div>
-          <div class="item">Contact us</div>
-        </div>
-      </div> -->
 
     <section class="container-fluid">
         <div class="row">
@@ -50,34 +65,48 @@
             </div>
             <div class="col-3">
                 <div class="container" id="No7">
-                    <p> Top 7 </p>
-                    <p>
+                    <p class="top"> Top 7 </p>
+                    <p class="ticker">
                         Ticker: <%=stock6%>
                     </p>
                     <p>
                         Full name: <%=name6%>
                     </p>
-                    <P> Industry: <%=industry6%></P>
-                    <p> <%=stock6%> was mentioned <%=count6%> times in the top 200 hot topics in r/wallstreetbets!</p>
-                    <P>previous day closing price: <%=previousClose6%></P>
-                    <P>50-day average price: <%=fiftyDayAverage6%></P>
-                    <P>10-day average daily volume: <%=averageDailyVolume10Day6%></P>
+                    <P> Industry: <%=industry6%>
+                    </P>
+                    <p>
+                        <%=stock6%> was mentioned <%=count6%> times in the top 500 hot topics in r/wallstreetbets!
+                    </p>
+                    <P>Previous day closing price: $<%=previousClose6%>
+                    </P>
+                    <P>50-day average price: $<%= Math.round(fiftyDayAverage6*100)/100%>
+                    </P>
+                    <P>10-day average daily volume: <%=averageDailyVolume10Day6.toString().replace(
+                            /\B(?=(\d{3})+(?!\d))/g, "," )%> shares
+                    </P>
                 </div>
             </div>
             <div class="col-3">
-                <div class="container" id="No8"> 
-                    <p> Top 8 </p>
-                    <p>
+                <div class="container" id="No8">
+                    <p class="top"> Top 8 </p>
+                    <p class="ticker">
                         Ticker: <%=stock7%>
                     </p>
                     <p>
                         Full name: <%=name7%>
                     </p>
-                    <P> Industry: <%=industry7%></P>
-                    <p> <%=stock6%> was mentioned <%=count7%> times in the top 200 hot topics in r/wallstreetbets!</p>
-                    <P>previous day closing price: <%=previousClose7%></P>
-                    <P>50-day average price: <%=fiftyDayAverage7%></P>
-                    <P>10-day average daily volume: <%=averageDailyVolume10Day7%></P>
+                    <P> Industry: <%=industry7%>
+                    </P>
+                    <p>
+                        <%=stock7%> was mentioned <%=count7%> times in the top 500 hot topics in r/wallstreetbets!
+                    </p>
+                    <P>Previous day closing price: $<%=previousClose7%>
+                    </P>
+                    <P>50-day average price: $<%= Math.round(fiftyDayAverage7*100)/100%>
+                    </P>
+                    <P>10-day average daily volume: <%=averageDailyVolume10Day7.toString().replace(
+                            /\B(?=(\d{3})+(?!\d))/g, "," )%> shares
+                    </P>
                 </div>
             </div>
             <div class="col-3">
@@ -87,143 +116,199 @@
         <div class="row justify-content-center">
             <div class="col">
                 <div class="container" id="No2">
-                    <p> Top 2 </p>
-                    <p>
+                    <p class="top"> Top 2 </p>
+                    <p class="ticker">
                         Ticker: <%=stock1%>
                     </p>
                     <p>
                         Full name: <%=name1%>
                     </p>
-                    <P> Industry: <%=industry1%></P>
-                    <p> <%=stock1%> was mentioned <%=count1%> times in the top 200 hot topics in r/wallstreetbets!</p>
-                    <P>previous day closing price: <%=previousClose1%></P>
-                    <P>50-day average price: <%=fiftyDayAverage1%></P>
-                    <P>10-day average daily volume: <%=averageDailyVolume10Day1%></P>
+                    <P> Industry: <%=industry1%>
+                    </P>
+                    <p>
+                        <%=stock1%> was mentioned <%=count1%> times in the top 500 hot topics in r/wallstreetbets!
+                    </p>
+                    <P>Previous day closing price: $<%=previousClose1%>
+                    </P>
+                    <P>50-day average price: $<%= Math.round(fiftyDayAverage1*100)/100%>
+                    </P>
+                    <P>10-day average daily volume: <%=averageDailyVolume10Day1.toString().replace(
+                            /\B(?=(\d{3})+(?!\d))/g, "," )%> shares
+                    </P>
                 </div>
             </div>
             <div class="col-1">
             </div>
             <div class="col">
-                <div class="container" id="No3"> 
-                    <p> Top 3 </p>
-                    <p>
+                <div class="container" id="No3">
+                    <p class="top"> Top 3 </p>
+                    <p class="ticker">
                         Ticker: <%=stock2%>
                     </p>
                     <p>
                         Full name: <%=name2%>
                     </p>
-                    <P> Industry: <%=industry2%></P>
-                    <p> <%=stock2%> was mentioned <%=count2%> times in the top 200 hot topics in r/wallstreetbets!</p>
-                    <P>previous day closing price: <%=previousClose2%></P>
-                    <P>50-day average price: <%=fiftyDayAverage2%></P>
-                    <P>10-day average daily volume: <%=averageDailyVolume10Day2%></P>
+                    <P> Industry: <%=industry2%>
+                    </P>
+                    <p>
+                        <%=stock2%> was mentioned <%=count2%> times in the top 500 hot topics in r/wallstreetbets!
+                    </p>
+                    <P>Previous day closing price: $<%=previousClose2%>
+                    </P>
+                    <P>50-day average price: $<%= Math.round(fiftyDayAverage2*100)/100%>
+                    </P>
+                    <P>10-day average daily volume: <%=averageDailyVolume10Day2.toString().replace(
+                            /\B(?=(\d{3})+(?!\d))/g, "," )%> shares
+                    </P>
                 </div>
             </div>
         </div>
 
         <div class="row justify-content-center">
             <div class="col">
-                <div class="container" id="No6"> 
-                    <p> Top 6 </p>
-                    <p>
+                <div class="container" id="No6">
+                    <p class="top"> Top 6 </p>
+                    <p class="ticker">
                         Ticker: <%=stock5%>
                     </p>
                     <p>
                         Full name: <%=name5%>
                     </p>
-                    <P> Industry: <%=industry5%></P>
-                    <p> <%=stock5%> was mentioned <%=count5%> times in the top 200 hot topics in r/wallstreetbets!</p>
-                    <P>previous day closing price: <%=previousClose5%></P>
-                    <P>50-day average price: <%=fiftyDayAverage5%></P>
-                    <P>10-day average daily volume: <%=averageDailyVolume10Day5%></P>
+                    <P> Industry: <%=industry5%>
+                    </P>
+                    <p>
+                        <%=stock5%> was mentioned <%=count5%> times in the top 500 hot topics in r/wallstreetbets!
+                    </p>
+                    <P>Previous day closing price: $<%=previousClose5%>
+                    </P>
+                    <P>50-day average price: $<%= Math.round(fiftyDayAverage5*100)/100%>
+                    </P>
+                    <P>10-day average daily volume: <%=averageDailyVolume10Day5.toString().replace(
+                            /\B(?=(\d{3})+(?!\d))/g, "," )%> shares
+                    </P>
                 </div>
             </div>
             <div class="col">
                 <div class="container" id="No1">
-                    <p> Top 1 </p>
-                    <p>
+                    <p class="top"> Top 1 </p>
+                    <p class="ticker">
                         Ticker: <%=stock0%>
                     </p>
                     <p>
                         Full name: <%=name0%>
                     </p>
-                    <P> Industry: <%=industry0%></P>
-                    <p> <%=stock0%> was mentioned <%=count0%> times in the top 200 hot topics in r/wallstreetbets!</p>
-                    <P>previous day closing price: <%=previousClose0%></P>
-                    <P>50-day average price: <%=fiftyDayAverage0%></P>
-                    <P>10-day average daily volume: <%=averageDailyVolume10Day0%></P>
+                    <P> Industry: <%=industry0%>
+                    </P>
+                    <p>
+                        <%=stock0%> was mentioned <%=count0%> times in the top 500 hot topics in r/wallstreetbets!
+                    </p>
+                    <P>Previous day closing price: $<%=previousClose0%>
+                    </P>
+                    <P>50-day average price: $<%= Math.round(fiftyDayAverage0*100)/100%>
+                    </P>
+                    <P>10-day average daily volume: <%=averageDailyVolume10Day0.toString().replace(
+                            /\B(?=(\d{3})+(?!\d))/g, "," )%> shares
+                    </P>
                 </div>
             </div>
             <div class="col">
-                <div class="container" id="No9"> 
-                    <p> Top 9 </p>
-                    <p>
+                <div class="container" id="No9">
+                    <p class="top"> Top 9 </p>
+                    <p class="ticker">
                         Ticker: <%=stock8%>
                     </p>
                     <p>
                         Full name: <%=name8%>
                     </p>
-                    <P> Industry: <%=industry8%></P>
-                    <p> <%=stock8%> was mentioned <%=count8%> times in the top 200 hot topics in r/wallstreetbets!</p>
-                    <P>previous day closing price: <%=previousClose8%></P>
-                    <P>50-day average price: <%=fiftyDayAverage8%></P>
-                    <P>10-day average daily volume: <%=averageDailyVolume10Day8%></P>
+                    <P> Industry: <%=industry8%>
+                    </P>
+                    <p>
+                        <%=stock8%> was mentioned <%=count8%> times in the top 500 hot topics in r/wallstreetbets!
+                    </p>
+                    <P>Previous day closing price: $<%=previousClose8%>
+                    </P>
+                    <P>50-day average price: $<%= Math.round(fiftyDayAverage8*100)/100%>
+                    </P>
+                    <P>10-day average daily volume: <%=averageDailyVolume10Day8.toString().replace(
+                            /\B(?=(\d{3})+(?!\d))/g, "," )%> shares
+                    </P>
                 </div>
             </div>
         </div>
 
         <div class="row justify-content-center">
             <div class="col">
-                <div class="container" id="No5"> 
-                    <p> Top 5 </p>
-                    <p>
+                <div class="container" id="No5">
+                    <p class="top"> Top 5 </p>
+                    <p class="ticker">
                         Ticker: <%=stock4%>
                     </p>
                     <p>
                         Full name: <%=name4%>
                     </p>
-                    <P> Industry: <%=industry7%></P>
-                    <p> <%=stock6%> was mentioned <%=count7%> times in the top 200 hot topics in r/wallstreetbets!</p>
-                    <P>previous day closing price: <%=previousClose7%></P>
-                    <P>50-day average price: <%=fiftyDayAverage7%></P>
-                    <P>10-day average daily volume: <%=averageDailyVolume10Day7%></P>
+                    <P> Industry: <%=industry4%>
+                    </P>
+                    <p>
+                        <%=stock4%> was mentioned <%=count4%> times in the top 500 hot topics in r/wallstreetbets!
+                    </p>
+                    <P>Previous day closing price: $<%=previousClose4%>
+                    </P>
+                    <P>50-day average price: $<%= Math.round(fiftyDayAverage4*100)/100%>
+                    </P>
+                    <P>10-day average daily volume: <%=averageDailyVolume10Day4.toString().replace(
+                            /\B(?=(\d{3})+(?!\d))/g, "," )%> shares
+                    </P>
                 </div>
             </div>
             <div class="col-1">
             </div>
             <div class="col">
-                <div class="container" id="No4"> 
-                    <p> Top 4 </p>
-                    <p>
+                <div class="container" id="No4">
+                    <p class="top"> Top 4 </p>
+                    <p class="ticker">
                         Ticker: <%=stock3%>
                     </p>
                     <p>
                         Full name: <%=name3%>
                     </p>
-                    <P> Industry: <%=industry3%></P>
-                    <p> <%=stock3%> was mentioned <%=count3%> times in the top 200 hot topics in r/wallstreetbets!</p>
-                    <P>previous day closing price: <%=previousClose3%></P>
-                    <P>50-day average price: <%=fiftyDayAverage3%></P>
-                    <P>10-day average daily volume: <%=averageDailyVolume10Day3%></P>
+                    <P> Industry: <%=industry3%>
+                    </P>
+                    <p>
+                        <%=stock3%> was mentioned <%=count3%> times in the top 500 hot topics in r/wallstreetbets!
+                    </p>
+                    <P>Previous day closing price: $<%=previousClose3%>
+                    </P>
+                    <P>50-day average price: $<%= Math.round(fiftyDayAverage3*100)/100%>
+                    </P>
+                    <P>10-day average daily volume: <%=averageDailyVolume10Day3.toString().replace(
+                            /\B(?=(\d{3})+(?!\d))/g, "," )%> shares
+                    </P>
                 </div>
             </div>
         </div>
 
         <div class="row justify-content-center">
             <div class="col">
-                <div class="container" id="No10"> 
-                    <p> Top 10 </p>
-                    <p>
+                <div class="container" id="No10">
+                    <p class="top"> Top 10 </p>
+                    <p class="ticker">
                         Ticker: <%=stock9%>
                     </p>
                     <p>
                         Full name: <%=name9%>
                     </p>
-                    <P> Industry: <%=industry9%></P>
-                    <p> <%=stock9%> was mentioned <%=count9%> times in the top 200 hot topics in r/wallstreetbets!</p>
-                    <P>previous day closing price: <%=previousClose9%></P>
-                    <P>50-day average price: <%=fiftyDayAverage9%></P>
-                    <P>10-day average daily volume: <%=averageDailyVolume10Day9%></P>
+                    <P> Industry: <%=industry9%>
+                    </P>
+                    <p>
+                        <%=stock9%> was mentioned <%=count9%> times in the top 500 hot topics in r/wallstreetbets!
+                    </p>
+                    <P>Previous day closing price: $<%=previousClose9%>
+                    </P>
+                    <P>50-day average price: $<%= Math.round(fiftyDayAverage9*100)/100%>
+                    </P>
+                    <P>10-day average daily volume: <%=averageDailyVolume10Day9.toString().replace(
+                            /\B(?=(\d{3})+(?!\d))/g, "," )%> shares
+                    </P>
                 </div>
             </div>
         </div>

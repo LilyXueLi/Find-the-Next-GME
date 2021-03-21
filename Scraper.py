@@ -45,7 +45,7 @@ def main():
     reddit = praw.Reddit(client_id="3j4aMHa4CXXC7Q", client_secret="84T5rXSssKEm5H07XBIJ4wgo1MDdRw",
                          user_agent="for testing")
 
-    hot_posts = reddit.subreddit("wallstreetbets").hot(limit=None)
+    hot_posts = reddit.subreddit("wallstreetbets").hot(limit=500)
 
     # print(type(hot_posts))
 
@@ -78,7 +78,7 @@ def main():
     # print(f"Before clean {len(ticker_count)}")
 
     # A list of abbreviations generally do not represent tickers.
-    black_list = ["A", "DD", "FOR", "CEO", "ALL", "EV", "OR", "AT", "RH", "ONE", "ARE", "VERY", "ON"]
+    black_list = ["A", "DD", "FOR", "CEO", "ALL", "EV", "OR", "AT", "RH", "ONE", "ARE", "VERY", "ON", "EDIT"]
 
     clean_sorted_ticker_dict = {}
 

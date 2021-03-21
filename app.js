@@ -1,9 +1,6 @@
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
-
-
-
 // console.log(process.env.SECRET);
 
 const express = require("express");
@@ -34,13 +31,19 @@ app.use(express.static(__dirname));
 
 app.get("/", async (req, res) => {
   const latest = await Stock.find().sort({timeStamp:-1}).limit(1);
-  // console.log("starts");
-  // console.log(typeof(latest));
-  // console.log(latest[0].timeStamp);
   const latestTimeStamp = latest[0].timeStamp;
   const stockList  = await Stock.find({timeStamp: latestTimeStamp}).exec();
-  // const stockList = await Stock.find({});
-  console.log(stockList);
+  const prev = await Stock.find({timeStamp: {$lte: latestTimeStamp - 2*60*60*1000}}).sort({timeStamp:-1}).limit(1);
+
+  console.log(`latest time: ${latestTimeStamp}`);
+  const prevTimeStamp = prev[0].timeStamp;
+
+  console.log(`prev time: ${prevTimeStamp}`);
+
+  const prevStockList = await Stock.find({timeStamp: prevTimeStamp}).exec();
+
+  
+  console.log(prevStockList);
 
   let obj = {};
   for (let i=0; i<stockList.length; i++) {
@@ -51,8 +54,14 @@ app.get("/", async (req, res) => {
     obj["previousClose"+i] = stockList[i].previousClose;
     obj["fiftyDayAverage"+i] = stockList[i].fiftyDayAverage;
     obj["averageDailyVolume10Day"+i] = stockList[i].averageDailyVolume10Day;
+
+    // obj["rankingChange"+i] =  
   }
-  console.log(obj);
+
+  obj["rankingChange0"] = 0;
+  obj["rankingChange1"] = -1;
+  obj["rankingChange2"] = 0;
+
   res.render("index", obj);
 
 })
