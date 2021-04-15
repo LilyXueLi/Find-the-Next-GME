@@ -32,9 +32,13 @@ body {
 }
 
 .item img {
-    transform: scale(.2, .2);
-    padding:0;
-    margin-right:-35px;
+    /*transform: scale(.1, .1);*/
+    padding:20;
+    margin-left:20px;
+}
+
+.position {
+    margin-left:20px;
 }
 
 span {
