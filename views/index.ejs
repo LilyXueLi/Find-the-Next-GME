@@ -29,34 +29,26 @@
     </nav>
 
     <div class="collapse" id="ranking">
-        <div class="item">
-            <span>GME</span>
-            <% if(rankingChange0> 0) {%>
-                <img src="/Assets/up arrow_copy.png">
-                <span class="up">
-                    <%=Math.abs(rankingChange0)%>
-                </span>
-                <% } else if (rankingChange0 <0) { %>
-                    <img src="/Assets/down arrow 2.png">
-                    <span class="down">
-                        <%=Math.abs(rankingChange0)%>
-                    </span>
-                    <% } else {%>
-                        <span class="nochange"> no change </span>
-                        <% } %>
-
-        </div>
-        <div class="item">
-            <span>AMC</span><img src="/Assets/down arrow 2.png"><span class="position"> 2 </span>
-        </div>
-        <div class="item">
-            <span>AMC</span><img src="/Assets/down arrow 2.png"><span class="position"> 2 </span>
-        </div>
-        <div class="item">Stock2</div>
-        <div class="item">Stock2</div>
-        <div class="item">Stock2</div>
-        <div class="item">Stock2</div>
-        <div class="item">Stock2</div>
+        <% rankingChanges.forEach(function(rankingChange){ %>
+            <div class="item">
+                <span><%= rankingChange.ticker %></span>
+                <% if (rankingChange.change > 0) {%>
+                      <img src="/Assets/up arrow_copy.png">
+                      <span class="position">
+                          <%= Math.abs(rankingChange.change) %>
+                      </span>
+                   <% } else if (rankingChange.change < 0) { %>
+                      <img src="/Assets/down arrow 2.png">
+                      <span class="position">
+                          <%= Math.abs(rankingChange.change) %>
+                      </span>
+                   <% } else if (rankingChange.change == 0) { %>
+                      <span class="nochange"> no change </span>
+                   <% } else {%>
+                      <img src="/Assets/new3.png">
+                   <% } %>
+            </div>
+        <% }) %>
     </div>
 
     <section class="container-fluid">
