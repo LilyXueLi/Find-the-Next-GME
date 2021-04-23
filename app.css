@@ -18,6 +18,11 @@ body {
     border-color: #f1ff5c;
 }
 
+#visitor {
+    color: blanchedalmond;
+    font-size: 20px;
+}
+
 .item { 
     padding:10px 40px;
     border-bottom:1px solid #444;
