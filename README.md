@@ -9,4 +9,7 @@ Provides the names of the 10 most discussed stocks based on the title and conten
 
 # How I built it
 Using JavaScript, Node.js, Express, MongoDB, Mongoose, HTML, CSS
+
 Details of the scraper is here: [How I got the data](https://github.com/LilyXueLi/Find-the-Next-GME-Scraper)
+
+# How I built it
