@@ -12,7 +12,7 @@ Late January 2021, the stock price of GameStop (NYSE: GME) soared up by 1500% in
 # How I built it
 Using JavaScript, Node.js, Express, MongoDB, Mongoose, HTML, CSS
 
-[Here is how I got the data from /WallStreetBets](https://github.com/LilyXueLi/Find-the-Next-GME-Scraper)
+[Click here to see how I got the data from /WallStreetBets](https://github.com/LilyXueLi/Find-the-Next-GME-Scraper)
 
 # Accomplishments that I am proud of
 This is the first full-stack app I built! Throughout the project, I learned a new programming language (e.g., JavaScript), connected to my first real database (i.e., MongoDB) and 
