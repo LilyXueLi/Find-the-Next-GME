@@ -7,3 +7,5 @@ Late January 2021, the stock price of GameStop (NYSE: GME) soared up by 1500% in
 # What it does
 Provides the names of the 10 most discussed stocks based on the title and contents of the posts in /WallStreetBets, on a daily basis. The app also provides the relevant financial information of these stocks (e.g., industry, previous day closing price, 50-day average price, etc.).
 
+# How I built it
+Using JavaScript, Node.js, Express, MongoDB, Mongoose, HTML, CSS
