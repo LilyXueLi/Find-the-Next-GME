@@ -33,19 +33,19 @@
             <div class="item">
                 <span><%= rankingChange.ticker %></span>
                 <% if (rankingChange.change > 0) {%>
-                      <img src="/Assets/up arrow_copy.png">
+                      <img src="/assets/upArrow.png">
                       <span class="position">
                           <%= Math.abs(rankingChange.change) %>
                       </span>
                    <% } else if (rankingChange.change < 0) { %>
-                      <img src="/Assets/down arrow 2.png">
+                      <img src="/assets/downArrow.png">
                       <span class="position">
                           <%= Math.abs(rankingChange.change) %>
                       </span>
                    <% } else if (rankingChange.change == 0) { %>
                       <span class="nochange"> no change </span>
                    <% } else {%>
-                      <img src="/Assets/new3.png">
+                      <img src="/assets/newTag.png">
                    <% } %>
             </div>
         <% }) %>
