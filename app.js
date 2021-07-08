@@ -17,8 +17,7 @@ mongoose.connect(dbUrl, { useNewUrlParser: true }, { useUnifiedTopology: true })
         console.log("MONGO CONNECTION OPEN")
     })
     .catch(err => {
-        console.log("MONGO CONNECTION ERROR")
-        console.log(err)
+        console.error("MONGO CONNECTION ERROR:", err)
     })
 
 app.set("views", path.join(__dirname,"views"));
@@ -28,7 +27,7 @@ app.use(express.urlencoded ({extended:true}));
 app.use(express.static(__dirname));
 
 
-function getRankings(prevStockList, currStockList) {
+function getRankingChanges(prevStockList, currStockList) {
   let rankingChanges = [];
   let prevPositions = [];
   let currInPrevPositions = [];
@@ -57,7 +56,7 @@ app.get("/", async (req, res) => {
   const latestCount = await Count.find().sort({_id: -1}).limit(1);
   const visitorCount = latestCount[0].count + 1; 
   const filter = {count: visitorCount - 1};
-  const update = {count : visitorCount};
+  const update = {count: visitorCount};
   let doc = await Count.findOneAndUpdate(filter, update, {upsert: true, sort: {created: -1}});
 
   const latest = await Stock.find().sort({timeStamp:-1}).limit(1);
