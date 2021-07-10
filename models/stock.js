@@ -36,6 +36,14 @@ const stockSchema = new mongoose.Schema ({
     timeStamp: {
         type: Date,
         required: true
+    },
+    newOccur : {
+        type: Boolean,
+        required: false
+    },
+    rankingChange : {
+        type: Number,
+        required: false
     }
 })
 

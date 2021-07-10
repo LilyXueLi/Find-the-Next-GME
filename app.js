@@ -2,16 +2,18 @@ if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
 
+// Adds all dependencies
 const express = require("express");
 const app = express();
 const path = require("path");
 const mongoose = require("mongoose");
 
+// Loads the schema
 const Stock = require("./models/stock");
 const Count = require("./models/visitorCount");
 
+// Connects to MongoDB
 const dbUrl = process.env.DB_URL;
-
 mongoose.connect(dbUrl, { useNewUrlParser: true }, { useUnifiedTopology: true })
   .then(() => {
     console.log("MONGO CONNECTION OPEN")
@@ -20,71 +22,70 @@ mongoose.connect(dbUrl, { useNewUrlParser: true }, { useUnifiedTopology: true })
     console.error("MONGO CONNECTION ERROR:", err)
   })
 
+// Sets up server
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname));
 
-
-function getRankingChanges(prevStockList, currStockList) {
-  let rankingChanges = [];
-  let prevPositions = [];
-  let currInPrevPositions = [];
-
-  for (prevStock of prevStockList) {
-    prevPositions.push(prevStock["ticker"]);
-  }
-
-  for (let i = 0; i < 10; i++) {
-    currInPrevPositions.push(prevPositions.indexOf(currStockList[i]["ticker"]) + 1);
-  }
-
-  for (let i = 0; i < 10; i++) {
-    if (currInPrevPositions[i] == 0) {
-      rankingChanges.push({ "ticker": currStockList[i]["ticker"] });
-    }
-    else {
-      rankingChanges.push({ "ticker": currStockList[i]["ticker"], "change": currStockList[i]["rank"] - currInPrevPositions[i] });
-    }
-
-  }
-  return rankingChanges;
-}
-
-app.get("/", async (req, res) => {
+// Gets the latest visitor count, increments it and updates it in the DB
+async function updateVisitorCount() {
   const latestCount = await Count.find().sort({ _id: -1 }).limit(1);
   const visitorCount = latestCount[0].count + 1;
   const filter = { count: visitorCount - 1 };
   const update = { count: visitorCount };
-  let doc = await Count.findOneAndUpdate(filter, update, { upsert: true, sort: { created: -1 } });
+  await Count.findOneAndUpdate(filter, update, { upsert: true, sort: { created: -1 } });
 
+  return visitorCount;
+}
+
+// Gets the most recent list of Top 10 stocks
+async function getLatestStockList() {
   const latest = await Stock.find().sort({ timeStamp: -1 }).limit(1);
   const latestTimeStamp = latest[0].timeStamp;
   const stockList = await Stock.find({ timeStamp: latestTimeStamp }).exec();
-  const prev = await Stock.find({ timeStamp: { $lte: latestTimeStamp - 2 * 60 * 60 * 1000 } }).sort({ timeStamp: -1 }).limit(1);
-  const prevTimeStamp = prev[0].timeStamp;
-  const prevStockList = await Stock.find({ timeStamp: prevTimeStamp }).exec();
 
-  let obj = {};
+  return stockList;
+}
+
+// Pulls together a list of stock ranking changes
+function getRankingChanges(stockList) {
+  let rankingChanges = [];
 
   for (let i = 0; i < stockList.length; i++) {
-    obj["stock" + i] = stockList[i].ticker;
-    obj["name" + i] = stockList[i].name;
-    obj["industry" + i] = stockList[i].industry;
-    obj["count" + i] = stockList[i].count;
-    obj["previousClose" + i] = stockList[i].previousClose;
-    obj["fiftyDayAverage" + i] = stockList[i].fiftyDayAverage;
-    obj["averageDailyVolume10Day" + i] = stockList[i].averageDailyVolume10Day;
+    rankingChanges.push({ "ticker": stockList[i].ticker, "newOccur": stockList[i].newOccur, "change": stockList[i].rankingChange });
   }
 
-  obj["rankingChanges"] = getRankingChanges(prevStockList, stockList);
+  return rankingChanges;
+}
 
-  obj["visitorCount"] = visitorCount;
+// Renders the Top 10 stock information to the index page
+app.get("/", async (req, res) => {
+  updateVisitorCount().then((updatedVisitorCount) => {
+    getLatestStockList().then((stockList) => {
+      let obj = {};
 
-  res.render("index", obj);
+      for (let i = 0; i < stockList.length; i++) {
+        obj["stock" + i] = stockList[i].ticker;
+        obj["name" + i] = stockList[i].name;
+        obj["industry" + i] = stockList[i].industry;
+        obj["count" + i] = stockList[i].count;
+        obj["previousClose" + i] = stockList[i].previousClose;
+        obj["fiftyDayAverage" + i] = stockList[i].fiftyDayAverage;
+        obj["averageDailyVolume10Day" + i] = stockList[i].averageDailyVolume10Day;
+      }
+
+      obj["rankingChanges"] = getRankingChanges(stockList);
+
+      obj["visitorCount"] = updatedVisitorCount;
+
+      res.render("index", obj);
+    })
+  })
 })
 
+// Checks if the port is open
 const port = process.env.PORT || 8080;
 
 app.listen(port, () => {

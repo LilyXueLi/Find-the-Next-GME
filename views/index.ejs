@@ -31,30 +31,34 @@
     <div class="collapse" id="ranking">
         <% rankingChanges.forEach(function(rankingChange){ %>
             <div class="item">
-                <span><%= rankingChange.ticker %></span>
-                <% if (rankingChange.change > 0) {%>
-                      <img src="/assets/upArrow.png">
-                      <span class="position">
-                          <%= Math.abs(rankingChange.change) %>
-                      </span>
-                   <% } else if (rankingChange.change < 0) { %>
-                      <img src="/assets/downArrow.png">
-                      <span class="position">
-                          <%= Math.abs(rankingChange.change) %>
-                      </span>
-                   <% } else if (rankingChange.change == 0) { %>
-                      <span class="nochange"> no change </span>
-                   <% } else {%>
-                      <img src="/assets/newTag.png">
-                   <% } %>
+                <span>
+                    <%= rankingChange.ticker %>
+                </span>
+                <% if (rankingChange.newOccur==undefined || rankingChange.newOccur==true) {%>
+                    <img src="/assets/newTag.png">
+                    <% } else {%>
+                        <% if (rankingChange.change < 0) { %>
+                            <img src="/assets/downArrow.png">
+                            <span class="position">
+                                <%= Math.abs(rankingChange.change) %>
+                            </span>
+                            <% } else if (rankingChange.change==0) { %>
+                                <span class="nochange"> no change </span>
+                                <% } else {%>
+                                    <img src="/assets/downArrow.png">
+                                    <span class="position">
+                                        <%= Math.abs(rankingChange.change) %>
+                                    </span>
+                                    <% } %>
+                                        <% } %>
             </div>
-        <% }) %>
+            <% }) %>
     </div>
 
     <section class="container-fluid">
         <div class="row">
             <div class="col-3">
-                <span id="visitor">Welcome!   You are the <%=visitorCount %> th visitor! </span>
+                <span id="visitor">Welcome! You are the <%=visitorCount %> th visitor! </span>
             </div>
             <div class="col-3">
                 <div class="container" id="No7">
