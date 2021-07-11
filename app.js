@@ -49,20 +49,10 @@ async function getLatestStockList() {
   return stockList;
 }
 
-// Pulls together a list of stock ranking changes
-function getRankingChanges(stockList) {
-  let rankingChanges = [];
-
-  for (let i = 0; i < stockList.length; i++) {
-    rankingChanges.push({ "ticker": stockList[i].ticker, "newOccur": stockList[i].newOccur, "change": stockList[i].rankingChange });
-  }
-
-  return rankingChanges;
-}
-
 function rendorData(res, stockList, visitorCount) {
   let obj = {};
 
+  let rankingChanges = [];
   for (let i = 0; i < stockList.length; i++) {
     obj["stock" + i] = stockList[i].ticker;
     obj["name" + i] = stockList[i].name;
@@ -71,8 +61,11 @@ function rendorData(res, stockList, visitorCount) {
     obj["previousClose" + i] = stockList[i].previousClose;
     obj["fiftyDayAverage" + i] = stockList[i].fiftyDayAverage;
     obj["averageDailyVolume10Day" + i] = stockList[i].averageDailyVolume10Day;
+    
+    rankingChanges.push({ "ticker": stockList[i].ticker, "newOccur": stockList[i].newOccur, "change": stockList[i].rankingChange });
+  
   }
-  obj["rankingChanges"] = getRankingChanges(stockList);
+  obj["rankingChanges"] = rankingChanges;
   obj["visitorCount"] = visitorCount;
 
   res.render("index", obj);
