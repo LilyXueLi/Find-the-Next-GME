@@ -44,45 +44,42 @@ async function updateVisitorCount() {
 async function getLatestStockList() {
   const latest = await Stock.find().sort({ timeStamp: -1 }).limit(1);
   const latestTimeStamp = latest[0].timeStamp;
-  const stockList = await Stock.find({ timeStamp: latestTimeStamp }).exec();
 
-  return stockList;
+  return await Stock.find({ timeStamp: latestTimeStamp }).exec();
 }
 
-// Pulls together a list of stock ranking changes
-function getRankingChanges(stockList) {
+// Helper function to package up the relevant stock information into a list of objects and render
+function renderData(res, stockList, visitorCount) {
+  let obj = {};
+
   let rankingChanges = [];
 
   for (let i = 0; i < stockList.length; i++) {
+    obj["stock" + i] = stockList[i].ticker;
+    obj["name" + i] = stockList[i].name;
+    obj["industry" + i] = stockList[i].industry;
+    obj["count" + i] = stockList[i].count;
+    obj["previousClose" + i] = stockList[i].previousClose;
+    obj["fiftyDayAverage" + i] = stockList[i].fiftyDayAverage;
+    obj["averageDailyVolume10Day" + i] = stockList[i].averageDailyVolume10Day;
     rankingChanges.push({ "ticker": stockList[i].ticker, "newOccur": stockList[i].newOccur, "change": stockList[i].rankingChange });
   }
 
-  return rankingChanges;
+  obj["rankingChanges"] = rankingChanges;
+
+  obj["visitorCount"] = visitorCount;
+
+  res.render("index", obj);
 }
 
 // Renders the Top 10 stock information to the index page
 app.get("/", async (req, res) => {
-  updateVisitorCount().then((updatedVisitorCount) => {
-    getLatestStockList().then((stockList) => {
-      let obj = {};
+  let visitorCount = updateVisitorCount();
+  let latestStockList = getLatestStockList();
 
-      for (let i = 0; i < stockList.length; i++) {
-        obj["stock" + i] = stockList[i].ticker;
-        obj["name" + i] = stockList[i].name;
-        obj["industry" + i] = stockList[i].industry;
-        obj["count" + i] = stockList[i].count;
-        obj["previousClose" + i] = stockList[i].previousClose;
-        obj["fiftyDayAverage" + i] = stockList[i].fiftyDayAverage;
-        obj["averageDailyVolume10Day" + i] = stockList[i].averageDailyVolume10Day;
-      }
+  let values = await Promise.all([latestStockList, visitorCount]);
 
-      obj["rankingChanges"] = getRankingChanges(stockList);
-
-      obj["visitorCount"] = updatedVisitorCount;
-
-      res.render("index", obj);
-    })
-  })
+  renderData(res, values[0], values[1]);
 })
 
 // Checks if the port is open
