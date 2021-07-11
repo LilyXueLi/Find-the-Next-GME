@@ -60,29 +60,32 @@ function getRankingChanges(stockList) {
   return rankingChanges;
 }
 
+function rendorData(res, stockList, visitorCount) {
+  let obj = {};
+
+  for (let i = 0; i < stockList.length; i++) {
+    obj["stock" + i] = stockList[i].ticker;
+    obj["name" + i] = stockList[i].name;
+    obj["industry" + i] = stockList[i].industry;
+    obj["count" + i] = stockList[i].count;
+    obj["previousClose" + i] = stockList[i].previousClose;
+    obj["fiftyDayAverage" + i] = stockList[i].fiftyDayAverage;
+    obj["averageDailyVolume10Day" + i] = stockList[i].averageDailyVolume10Day;
+  }
+  obj["rankingChanges"] = getRankingChanges(stockList);
+  obj["visitorCount"] = visitorCount;
+
+  res.render("index", obj);
+}
+
 // Renders the Top 10 stock information to the index page
 app.get("/", async (req, res) => {
-  updateVisitorCount().then((updatedVisitorCount) => {
-    getLatestStockList().then((stockList) => {
-      let obj = {};
+  let visitorCount = updateVisitorCount();
+  let latestStockList = getLatestStockList();
 
-      for (let i = 0; i < stockList.length; i++) {
-        obj["stock" + i] = stockList[i].ticker;
-        obj["name" + i] = stockList[i].name;
-        obj["industry" + i] = stockList[i].industry;
-        obj["count" + i] = stockList[i].count;
-        obj["previousClose" + i] = stockList[i].previousClose;
-        obj["fiftyDayAverage" + i] = stockList[i].fiftyDayAverage;
-        obj["averageDailyVolume10Day" + i] = stockList[i].averageDailyVolume10Day;
-      }
+  let values = await Promise.all([latestStockList, visitorCount]);
 
-      obj["rankingChanges"] = getRankingChanges(stockList);
-
-      obj["visitorCount"] = updatedVisitorCount;
-
-      res.render("index", obj);
-    })
-  })
+  rendorData(res, values[0], values[1]);
 })
 
 // Checks if the port is open
